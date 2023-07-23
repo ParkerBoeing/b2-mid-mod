@@ -29,18 +29,18 @@ RSpec.describe "departments" do
   describe "show page" do
     it "shows employees name, department, their tickets oldest to newest, and their oldest ticket in a seperate location" do
       visit "/employees/#{@employee_1.id}"
-
+      save_and_open_page
       within "#Facts" do
-      expect(page).to have_content(@employee_1.name)
-      expect(page).to have_content(@employee_1.department.name)
+        expect(page).to have_content(@employee_1.name)
+        expect(page).to have_content(@employee_1.department.name)
       end
 
-      within "#Ordered_tickets" do
-      expect(@ticket_2.name).to appear_before(@ticket_1.name)
+      within "#Tickets" do
+        expect(@ticket_2.subject).to appear_before(@ticket_1.subject)
       end
 
       within "#Oldest_ticket" do
-        expect(page).to have_content(@ticket_2.name)
+        expect(page).to have_content(@ticket_2.subject)
       end
     end
   end
