@@ -27,22 +27,22 @@ RSpec.describe "departments" do
   end
 
   describe "index page" do
-    it "shows each department and when it was created" do
+    it "shows each department, the corresponding floor it is on, and all of its employees" do
       visit "/departments"
-      require 'pry'; binding.pry
 
-      within "##{@deparment_1.id}" do
+      within "#Marketing" do
         expect(page).to have_content(@department_1.name)
         expect(page).to have_content(@department_1.floor)
         expect(page).to have_content(@employee_1.name)
         expect(page).to have_content(@employee_2.name)
       end
 
-      within "##{@deparment_2.id}" do
+      within "#IT" do
         expect(page).to have_content(@department_2.name)
         expect(page).to have_content(@department_2.floor)
         expect(page).to have_content(@employee_3.name)
-        expect(page).to have_content(@employee_Tname)      end
+        expect(page).to have_content(@employee_4.name)
+      end
     end
   end
 end
