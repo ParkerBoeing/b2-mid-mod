@@ -9,12 +9,12 @@ RSpec.describe "departments" do
       name: "IT",
       floor: "Basement")
 
-    @employee_1 = @department_1.employees.create!(name: "George", level: "Intern")
-    @employee_2 = @department_1.employees.create!(name: "Julia", level: "Manager")
-    @employee_3 = @department_2.employees.create!(name: "Simon", level: "Junior Dev")
-    @employee_4 = @department_2.employees.create!(name: "Simone", level: "Senior Dev")
+    @employee_1 = @department_1.employees.create!(name: "George", level: 1)
+    @employee_2 = @department_1.employees.create!(name: "Julia", level: 2)
+    @employee_3 = @department_2.employees.create!(name: "Simon", level: 3)
+    @employee_4 = @department_2.employees.create!(name: "Simone", level: 4)
     
-    @ticket_1 = Ticket.create!(subject: "Get our coffee", age: 3)
+    @ticket_1 = Ticket.create!(subject: "Get coffee", age: 3)
     @ticket_2 = Ticket.create!(subject: "Wax shoes", age: 7)
     @ticket_3 = Ticket.create!(subject: "Performance review for intern", age: 10)
     @ticket_4 = Ticket.create!(subject: "Create linked list", age: 14)
@@ -29,7 +29,7 @@ RSpec.describe "departments" do
   describe "show page" do
     it "shows employees name, department, their tickets oldest to newest, and their oldest ticket in a seperate location" do
       visit "/employees/#{@employee_1.id}"
-
+      @employee_1.reload
       within "#Facts" do
         expect(page).to have_content(@employee_1.name)
         expect(page).to have_content(@employee_1.department.name)
@@ -67,5 +67,21 @@ RSpec.describe "departments" do
         expect(page).to_not have_content(@ticket_3.subject)
       end
     end  
+
+    it "show the employee's level and a list of all other employees that this employee shares tickets with" do
+      @employee_ticket_6 = EmployeeTicket.create!(employee_id: @employee_4.id, ticket_id: @ticket_2.id)
+      @employee_ticket_7 = EmployeeTicket.create!(employee_id: @employee_4.id, ticket_id: @ticket_1.id)
+      visit "/employees/#{@employee_1.id}"
+
+      within "#Facts" do
+        expect(page).to have_content(@employee_1.level)
+      end
+
+      within "#Afilliated_employees" do
+        expect(page).to have_content(@employee_3.name)
+        expect(page).to have_content(@employee_4.name)
+        expect(page).to_not have_content(@employee_4.name).twice
+      end
+    end
   end
 end
