@@ -29,7 +29,6 @@ RSpec.describe "departments" do
   describe "index page" do
     it "shows each department and when it was created" do
       visit "/departments"
-      require 'pry'; binding.pry
 
       within "##{@deparment_1.id}" do
         expect(page).to have_content(@department_1.name)
@@ -42,7 +41,7 @@ RSpec.describe "departments" do
         expect(page).to have_content(@department_2.name)
         expect(page).to have_content(@department_2.floor)
         expect(page).to have_content(@employee_3.name)
-        expect(page).to have_content(@employee_Tname)      end
+        expect(page).to have_content(@employee_4.name)      end
     end
   end
 end
