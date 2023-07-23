@@ -74,10 +74,10 @@ RSpec.describe "departments" do
       visit "/employees/#{@employee_1.id}"
 
       within "#Facts" do
-        expect(page).to have_content(@employee_1.level)
+        expect(page).to have_content("Level: #{@employee_1.level}")
       end
 
-      within "#Afilliated_employees" do
+      within "#Affiliated_employees" do
         expect(page).to have_content(@employee_3.name)
         expect(page).to have_content(@employee_4.name)
         expect(page).to_not have_content(@employee_4.name).twice

@@ -38,5 +38,11 @@ RSpec.describe Employee, type: :model do
     it "returns oldest ticket" do
       expect(@employee_1.oldest_ticket).to eq(@ticket_2)
     end
+
+    it "returns a unique list of employees affiliated through shared tickets" do
+      @employee_ticket_6 = EmployeeTicket.create!(employee_id: @employee_4.id, ticket_id: @ticket_2.id)
+      @employee_ticket_7 = EmployeeTicket.create!(employee_id: @employee_4.id, ticket_id: @ticket_1.id)
+      expect(@employee_1.affiliated_employees).to eq([@employee_3, @employee_4])
+    end
   end
 end

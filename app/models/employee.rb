@@ -10,4 +10,8 @@ class Employee < ApplicationRecord
   def oldest_ticket
     order_tickets_old_to_new[0]
   end
+
+  def affiliated_employees
+    Employee.joins(:tickets).where(tickets: { id: ticket_ids }).where.not(id: id).distinct
+  end
 end

@@ -2,6 +2,7 @@
 <div id="Facts">
 <h2>Name: <%= @employee.name %></h2>
 <h3>Department: <%= @employee.department.name %>
+<h3>Level: <%= @employee.level %> </h3>
 </div>
 
 <div id="Tickets">
@@ -21,5 +22,12 @@
     <p> <%= form.label :ticket_id, "Please enter a valid ticket ID:" %> </p>
     <p> <%= form.text_area :ticket_id %> </p>
     <p> <%= form.submit "Submit" %> </p>
+<% end %>
+</div>
+
+<div id="Affiliated_employees">
+<h3> Employees with shared tickets: </h3>
+<% @affiliated_employees.each do |employee| %>
+  <p> <%= employee.name %> </p>
 <% end %>
 </div>
