@@ -26,22 +26,21 @@ RSpec.describe "departments" do
     @employee_ticket_5 = EmployeeTicket.create!(employee_id: @employee_3.id, ticket_id: @ticket_1.id)
   end
 
-  describe "index page" do
-    it "shows each department, the corresponding floor it is on, and all of its employees" do
-      visit "/departments"
+  describe "show page" do
+    it "shows employees name, department, their tickets oldest to newest, and their oldest ticket in a seperate location" do
+      visit "/employees/#{@employee_1.id}"
 
-      within "#Marketing" do
-        expect(page).to have_content(@department_1.name)
-        expect(page).to have_content(@department_1.floor)
-        expect(page).to have_content(@employee_1.name)
-        expect(page).to have_content(@employee_2.name)
+      within "#Facts" do
+      expect(page).to have_content(@employee_1.name)
+      expect(page).to have_content(@employee_1.department.name)
       end
 
-      within "#IT" do
-        expect(page).to have_content(@department_2.name)
-        expect(page).to have_content(@department_2.floor)
-        expect(page).to have_content(@employee_3.name)
-        expect(page).to have_content(@employee_4.name)
+      within "#Ordered_tickets" do
+      expect(@ticket_2.name).to appear_before(@ticket_1.name)
+      end
+
+      within "#Oldest_ticket" do
+        expect(page).to have_content(@ticket_2.name)
       end
     end
   end
