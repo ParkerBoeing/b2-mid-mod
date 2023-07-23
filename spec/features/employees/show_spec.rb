@@ -29,7 +29,7 @@ RSpec.describe "departments" do
   describe "show page" do
     it "shows employees name, department, their tickets oldest to newest, and their oldest ticket in a seperate location" do
       visit "/employees/#{@employee_1.id}"
-      save_and_open_page
+
       within "#Facts" do
         expect(page).to have_content(@employee_1.name)
         expect(page).to have_content(@employee_1.department.name)
@@ -37,11 +37,35 @@ RSpec.describe "departments" do
 
       within "#Tickets" do
         expect(@ticket_2.subject).to appear_before(@ticket_1.subject)
+        expect(page).to_not have_content(@ticket_4.subject)
+        expect(page).to_not have_content(@ticket_3.subject)
       end
 
       within "#Oldest_ticket" do
         expect(page).to have_content(@ticket_2.subject)
       end
     end
+
+    it "has a form to add a new ticket for the employee" do
+      visit "/employees/#{@employee_1.id}"
+
+      within "#Tickets" do
+        expect(@ticket_2.subject).to appear_before(@ticket_1.subject)
+        expect(page).to_not have_content(@ticket_4.subject)
+      end
+
+      within "#Add_ticket" do
+        expect(page).to have_content("Add ticket:")
+        fill_in("Ticket_id", with: @ticket_4.id)
+        click_button("Submit")
+        expect(current_path).to eq("/employees/#{@employee_1.id}")
+      end
+
+      within "#Tickets" do
+        expect(@ticket_4.subject).to appear_before(@ticket_2.subject)
+        expect(@ticket_2.subject).to appear_before(@ticket_1.subject)
+        expect(page).to_not have_content(@ticket_3.subject)
+      end
+    end  
   end
 end
