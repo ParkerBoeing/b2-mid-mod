@@ -55,8 +55,8 @@ RSpec.describe "departments" do
       end
 
       within "#Add_ticket" do
-        expect(page).to have_content("Add ticket:")
-        fill_in("Ticket_id", with: @ticket_4.id)
+        expect(page).to have_content("Please enter a valid ticket ID:")
+        fill_in("ticket_id", with: @ticket_4.id)
         click_button("Submit")
         expect(current_path).to eq("/employees/#{@employee_1.id}")
       end

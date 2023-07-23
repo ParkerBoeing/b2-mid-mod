@@ -15,3 +15,11 @@
 <h3> Oldest ticket: </h3>
 <p> <%= @employee.oldest_ticket.subject %>, <%= @employee.oldest_ticket.age %> days old
 </div>
+
+<div id="Add_ticket">
+<%= form_with url: "/employees/#{@employee.id}/tickets", method: :post do |form| %>
+    <p> <%= form.label :ticket_id, "Please enter a valid ticket ID:" %> </p>
+    <p> <%= form.text_area :ticket_id %> </p>
+    <p> <%= form.submit "Submit" %> </p>
+<% end %>
+</div>
